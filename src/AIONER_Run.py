@@ -12,6 +12,7 @@ import time
 import re
 import io
 import bioc
+from tqdm import tqdm
 
 from model_ner import HUGFACE_NER
 from processing_data import ml_intext_fn,out_BIO_BERT_crf_fn,out_BIO_BERT_softmax_fn
@@ -64,7 +65,7 @@ def ml_tagging(ml_input,nn_model,decoder_type='crf'):
     elif decoder_type=='softmax': 
         test_x,test_y, test_bert_text_label=nn_model.rep.load_data_hugface(test_list,word_max_len=nn_model.maxlen,label_type='softmax')
 
-    test_pre = nn_model.model.predict(test_x,batch_size=64)
+    test_pre = nn_model.model.predict(test_x,batch_size=64, verbose=0)
     if decoder_type=='crf':
         test_decode_temp=out_BIO_BERT_crf_fn(test_pre,test_bert_text_label,nn_model.rep.index_2_label)
     elif decoder_type=='softmax':
@@ -93,11 +94,11 @@ def NER_PubTator(infile,outfile,nn_model,para_set):
             title=''
             abstract=''
             all_text=fin.read().strip().split('\n\n')
-            Total_n=len(all_text)
-            print('Total number of sub-documents:', Total_n)
+            # Total_n=len(all_text)
+            # print('Total number of sub-documents:', Total_n)
             doc_num=0
             for doc in all_text:
-                print("Processing:{0}%".format(round(doc_num * 100 / Total_n)), end="\r")
+                # print("Processing:{0}%".format(round(doc_num * 100 / Total_n)), end="\r")
                 doc_num+=1
                 lines = doc.split('\n')
                 seg=lines[0].split('|t|')
@@ -125,11 +126,11 @@ def NER_BioC(infile,outfile,nn_model,para_set):
         with open(outfile,'w', encoding='utf-8') as fout:
             collection = bioc.load(fin)
             
-            Total_n=len(collection.documents)
-            print('Total number of sub-documents:', Total_n)
+            # Total_n=len(collection.documents)
+            # print('Total number of sub-documents:', Total_n)
             doc_num=0
             for document in collection.documents:
-                print("Processing:{0}%".format(round(doc_num * 100 / Total_n)), end="\r")
+                # print("Processing:{0}%".format(round(doc_num * 100 / Total_n)), end="\r")
                 doc_num+=1
                 # print(document.id)
                 mention_num=0
@@ -194,11 +195,12 @@ def NER_main_path(inpath, para_set, outpath, modelfile):
         print("begin tagging........")
         start_time=time.time()
         
-        for infile in os.listdir(inpath):
+        for infile in tqdm(os.listdir(inpath)):
             if os.path.isfile(outpath+infile):
-                print(infile+' has exsited.')
+                # print(infile+' has exsited.')
+                pass
             else:
-                print('processing:',infile)             
+                # print('processing:',infile)             
                 fin = open(inpath+infile, 'r',encoding='utf-8')
                 input_format=""
                 for line in fin:
@@ -216,7 +218,7 @@ def NER_main_path(inpath, para_set, outpath, modelfile):
                 elif(input_format == "BioC"):
                     NER_BioC(inpath+infile,outpath+infile,nn_model,para_set)    
         
-        print('tag done:',time.time()-start_time)
+        # print('tag done:',time.time()-start_time)
     
 
 
