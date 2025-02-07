@@ -1,4 +1,4 @@
-tensorflow==2.3.0
+tensorflow==2.10.1
 stanza==1.4.0
 bioc==2.0.post4
 tensorflow-addons==0.12.1
