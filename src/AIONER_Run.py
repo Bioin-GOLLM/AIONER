@@ -75,17 +75,14 @@ def ml_tagging(ml_input,nn_model,decoder_type='crf'):
 # only machine learning-based method
 def ML_Tag(text,ml_model,decoder_type='crf',entity_type='ALL'):
 
-    conll_in=ssplit_token(text, entity_type, max_len=ml_model.maxlen)
-    #print(ssplit_token) 
-#    print('ssplit token:',time.time()-startTime)
+    conll_in = ssplit_token(text, entity_type, max_len=ml_model.maxlen)
+    ml_tsv = ml_tagging(conll_in, ml_model, decoder_type=decoder_type)
+    final_result = NN_restore_index_fn(text, ml_tsv)
     
-#    startTime=time.time()
-    ml_tsv=ml_tagging(conll_in,ml_model,decoder_type=decoder_type)
-    #print('ml_tsv:\n',ml_tsv)
-#    print('ml ner:',time.time()-startTime)
-   
-    final_result= NN_restore_index_fn(text,ml_tsv)
-    # print('final ner:',time.time()-startTime)
+    # Filter results based on entity_type if not ALL.
+    if entity_type != 'ALL':
+        allowed_types = [et.strip() for et in entity_type.split(',')]
+        final_result = [ent for ent in final_result if ent[2] in allowed_types]
     
     return final_result
 
