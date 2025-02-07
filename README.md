@@ -77,7 +77,9 @@ Run Example:
 
     $ python AIONER_Run.py -i ../example/input/ -m ../pretrained_models/AIONER/Bioformer-softmax-AIONER.h5 -v ../vocab/AIO_label.vocab -e ALL -o ../example/output/
 
+If you run into any issue regarding typing_extentions, try the following and rerun the code above:
 
+	$ pip install --upgrade typing_extensions
 
 
 ## Training a new AIONER model
