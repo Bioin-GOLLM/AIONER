@@ -111,7 +111,8 @@ def NN_restore_index_fn(ori_text,file_pre):
             each_word_id=[]
             
             for i in range(0,len(sentence_pre)):
-
+                if sentence_pre[i].startswith("<") and sentence_pre[i].endswith(">"):
+                    continue
                 temp_id=sentence_ori.find(sentence_pre[i])
                 if temp_id<0:
                         #print('ori:',sentence_ori)
@@ -133,7 +134,8 @@ def NN_restore_index_fn(ori_text,file_pre):
             sentence_pre=sentence_pre.split()
            
             for i in range(0,len(sentence_pre)):
-
+                if sentence_pre[i].startswith("<") and sentence_pre[i].endswith(">"):
+                    continue
                 temp_id=sentence_ori.find(sentence_pre[i])
                 if temp_id<0:
                     print('resotr index error:',sentence_pre[i])
