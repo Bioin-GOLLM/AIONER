@@ -126,6 +126,8 @@ def NER_BioC(infile,outfile,nn_model,para_set):
         with open(outfile,'w', encoding='utf-8') as fout:
             collection = bioc.load(fin)
             
+            # manually changed the collection source to PubTator for the output since the source is now Pre-annotated
+            collection.source = 'PubTator'
             # Total_n=len(collection.documents)
             # print('Total number of sub-documents:', Total_n)
             doc_num=0
