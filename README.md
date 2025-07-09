@@ -32,9 +32,9 @@ To install all dependencies automatically using the command:
 ```
 conda create -n aioner310 python=3.10 -y
 conda activate aioner310
-conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 -y           # makes cudart64_110.dll visible :contentReference[oaicite:6]{index=6}
-pip install "tensorflow-gpu==2.10.0"                                   # last Windows-GPU wheel :contentReference[oaicite:7]{index=7}
-pip install "numpy<2"                                                  # avoid ABI break :contentReference[oaicite:8]{index=8}
+conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 -y           # makes cudart64_110.dll visible 
+pip install "tensorflow-gpu==2.10.0"                                   # last Windows-GPU wheel {index=7}
+pip install "numpy<2"                                                  # avoid ABI break 
 pip install "tensorflow-addons>=0.19,<0.21"                            # silences TFA warning
 pip install transformers==4.18.0 stanza==1.4.0 "spacy>=3.7,<4"
 python -m spacy download en_core_web_sm
